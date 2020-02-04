@@ -1,0 +1,11 @@
+.signup_form {
+    /* border: 1px solid; */
+    padding: 30px;
+    border-radius: 5px;
+    background: gainsboro;
+}
+@media(min-width:576px){
+    .signup_contain{
+        min-width: 300px;
+    }
+}
