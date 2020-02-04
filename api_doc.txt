@@ -1,0 +1,51 @@
+//register user
+
+http://localhost:3000/api/user/register   -  (POST)
+{
+	"name" : "ravis",
+	"email":"ravi@g.c",
+	"contact":"1222222222221",
+     "password":"122223",
+     
+}
+
+//register admin
+http://localhost:3000/api/user/register - (POST)
+{
+	"name" : "ravis",
+	"email":"ravi@g.c",
+	"contact":"1222222222221",
+     "password":"122223",
+     
+}
+
+
+//get all user data admin
+http://localhost:3000/api/user/admin/userdata - (GET)
+
+//update user
+http://localhost:3000/api/user/admin/update = (DELETE)
+{
+	"id":"5e356aa4e4e9c85d0025f630",
+	"name" : "monusharma",
+	"email":"rv222@g.c",
+	"contact":"9993332221",
+	"password":"4565552"
+	 
+}
+
+//delete user
+http://localhost:3000/api/user/admin/delete = (POST)
+{
+	"id":"5e359937ddd2874e1489c7da"
+
+}
+
+//login user
+ http://localhost:3000/api/user/login = (POST)
+{
+
+	"email":"ravi@g.c",
+	"password":"122223"
+	 
+}
