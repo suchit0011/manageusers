@@ -2,7 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const express = require('express');
 const { Allmember } = require('../signup/signupauth');
-
+const bcrypt = require('bcrypt');
 
 passport.use(new GoogleStrategy({
   callbackURL: "http://localhost:3000/api/user/auth/google/redirect",
@@ -16,11 +16,14 @@ passport.use(new GoogleStrategy({
       
       if (checkUser) return done(null, { profile: profile.emails[0].value, userdetail: checkUser.roles, newid: checkUser._id });
 
+      var genSalt = await bcrypt.genSalt(10);
+      var password_hash = await bcrypt.hash('default@123', genSalt);
+      
       const user = await new Allmember({
         name: profile.displayName,
         email: profile.emails[0].value,
         roles: 'user',
-        password: 'default@123'
+        password: password_hash
       });
 
       const result = await user.save();

@@ -9,7 +9,9 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router){}
   canActivate() {
     let user_token = localStorage.getItem('token')
+    // console.log('-',user_token)
     if (user_token) {
+    
       return true
     }
     else {

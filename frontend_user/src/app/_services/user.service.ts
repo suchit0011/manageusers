@@ -58,8 +58,9 @@ export class UserService {
 
         this.is_exist.next(res.data.body.message);
         if (res && res.data && res.data.body.usertoken) {
-
+         //
           this.is_adminlog.next(res.data.body.userId);
+          localStorage.setItem('loggedinId',res.data.body.userId)
 
           localStorage.setItem('token', res.data.body.usertoken)
           this.router.navigate(['']);
@@ -100,7 +101,7 @@ export class UserService {
 
     this.is_admin = false;
     this.is_user = false;
-
+    
   }
   //check is user logged in 
   logged_in() {

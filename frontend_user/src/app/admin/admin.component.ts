@@ -15,14 +15,12 @@ export class AdminComponent {
   register_error;
   update_err;
   p = 1;
-  adminlog_val;
+  // adminlog_val;
+  loginId;
   adminlog_check;
   constructor(private userservice: UserService, private router: Router) {
 
-    this.userservice.adminlog.subscribe((res: any) => {
-      this.adminlog_val = res;
-    })
-
+    this.loginId = localStorage.getItem('loggedinId');
     this.adminlog_check = localStorage.getItem('registeruser');
     // get user detail
     this.userservice.getUser().subscribe((res: any) => {
@@ -82,6 +80,10 @@ export class AdminComponent {
         this.userservice.getUser().subscribe((res: any) => {
           if (res) {
             for (let i = 0; i < res.length; i++) {
+              if ((this.loginId == id || this.adminlog_check == id) ) {
+                this.userservice.logout();
+                
+              }
               this.userDetail.push(res[i])
             }
           }
@@ -143,10 +145,11 @@ export class AdminComponent {
             if (res) {
               for (let i = 0; i < res.length; i++) {
 
-                if ((res[i]._id == this.adminlog_val || res[i]._id == this.adminlog_check) && res[i].roles == 'user') {
+                if ((this.loginId == res[i]._id || this.adminlog_check == res[i]._id) && res[i]._id == userval._id && userval.roles !== res[i].roles && res[i].roles == "user") {
 
                   this.userservice.logout();
                 }
+
                 this.userDetail.push(res[i])
               }
             }
@@ -174,10 +177,11 @@ export class AdminComponent {
 
             if (res) {
               for (let i = 0; i < res.length; i++) {
-                if ((res[i]._id == this.adminlog_val || res[i]._id == this.adminlog_check) && res[i].roles == 'user') {
-
+                if ((this.loginId == res[i]._id || this.adminlog_check == res[i]._id) && res[i]._id == userval._id && userval.roles !== res[i].roles && res[i].roles == "user") {
+                  
                   this.userservice.logout();
                 }
+                
                 this.userDetail.push(res[i])
               }
             }

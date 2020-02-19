@@ -15,9 +15,12 @@ import { LoginGuard } from 'src/app/_services/login.guard';
 import { UserroleGuard } from 'src/app/_services/userrole.guard';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AuthuserComponent } from './authuser/authuser.component';
 
 
 const routes: Routes = [
+  { path: 'fromoAuth', component: AuthuserComponent},
+  
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'register', component: SignupComponent, canActivate: [LoginGuard] },
@@ -31,7 +34,8 @@ const routes: Routes = [
     LoginComponent,
     SignupComponent,
     NavbarComponent,
-    AdminComponent
+    AdminComponent,
+    AuthuserComponent
   ],
   imports: [
     BrowserModule,

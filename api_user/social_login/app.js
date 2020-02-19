@@ -17,15 +17,24 @@ router.get('/google', passport.authenticate('google', {
 router.get('/auth/google/redirect',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        res.redirect('/api/user/success');
+        console.log('test============', req.user);
 
+        let newid = req.user.newid;
+        let usertype = req.user.userdetail;
+        if (newid != '') {
+            console.log("newid ====== ",newid)
+            res.redirect("http://localhost:4200/fromoAuth?tokenstore="+newid+"&useraccess="+usertype);
+        }
     }
-
 )
 
 router.get('/success', (req, res) => {
+    // console.log(res);
 
-    res.send({ data: { body: { status: 200, message: "login success" } } });
+    // console.log('test1',res);
+    //res.send({ data: { body: { status: 200, message: "login success" } } });
+    // res.redirect('http://localhost:4200');
+
 })
 
 
