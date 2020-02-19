@@ -3,7 +3,7 @@
     <div class="row justify-content-center mt-5">
 
       <div class="login_form">
-        <form class="login_contain"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form class="login_contain" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
           <div class="form-group">
             <label>Email address</label>
@@ -31,9 +31,9 @@
           </div>
           <hr>
           <div class="social_login text-center">
-            <a href="http://localhost:3000/api/user/google" > <button type="button" class="mx-2 bg-danger" (click)="googleLogin()"> <i class="fa fa-google"
-                aria-hidden="true"></i></button></a>
-              </div>
+            <a href="http://localhost:3000/api/user/google"> <button type="button" class="mx-2 bg-danger"
+                (click)="googleLogin()"> <i class="fa fa-google" aria-hidden="true"></i></button></a>
+          </div>
 
         </form>
       </div>
