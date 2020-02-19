@@ -7,7 +7,7 @@ function updateUser(user) {
         name: Joi.string().min(3).required(),
         email: Joi.string().required().email(),
         roles: Joi.string(),
-        password: Joi.string().min(8).required(),
+        password: Joi.string().min(8),
         id: Joi.string().required()
     }
 

@@ -4,17 +4,21 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   is_admin;
   is_user;
+  // adminlog: Observable<string>;
   private is_exist = new BehaviorSubject<string>('');
   admin_exist = this.is_exist.asObservable();
 
-   constructor(private http: HttpClient, private router: Router) { }
+  private is_adminlog = new BehaviorSubject<string>('');
+  adminlog = this.is_adminlog.asObservable();
+
+  constructor(private http: HttpClient, private router: Router) { }
   // admin crud
   getUser() {
 
@@ -38,10 +42,11 @@ export class UserService {
     return this.http.put(environment.api_endpoint + 'admin/update', user);
   }
 
-  socialLogin() {
-    return this.http.get(environment.api_endpoint + 'google')
-  }
 
+  googleLogin() {
+
+    return this.http.get(environment.api_endpoint + 'success')
+  }
   // user login
   userLogin(value) {
 
@@ -50,9 +55,12 @@ export class UserService {
         map(res => res)
       )
       .subscribe((res: any) => {
-       
+
         this.is_exist.next(res.data.body.message);
         if (res && res.data && res.data.body.usertoken) {
+
+          this.is_adminlog.next(res.data.body.userId);
+
           localStorage.setItem('token', res.data.body.usertoken)
           this.router.navigate(['']);
           if (res.data.body.userRole == "admin") {
@@ -65,23 +73,23 @@ export class UserService {
   }
   adminRegister(loggedin) {
     if (loggedin == 'true') {
-      
+
       localStorage.setItem('adminid', 'true');
 
     }
 
   }
   adminAccess() {
-  
+
     if (localStorage.getItem('adminid')) {
-      
+
       return true;
     }
-    else {  return false; }
+    else { return false; }
 
   }
   userRegister(newuser) {
-    
+
     return this.http.post(environment.api_endpoint + 'register', newuser);
   }
   logout() {
@@ -89,7 +97,7 @@ export class UserService {
     this.router.navigate(['/login']);
     localStorage.removeItem('newadmin');
     localStorage.removeItem('adminid');
-    
+
     this.is_admin = false;
     this.is_user = false;
 

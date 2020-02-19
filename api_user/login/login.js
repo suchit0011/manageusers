@@ -15,13 +15,14 @@ router.post('/login', async (req, res) => {
     if (!user) return res.send({ data: { body: { status: 400, message: 'User not registered' } } });
     
      const userRole = user.roles;
-     
+     const userId = user._id;
+
     const password = await bcrypt.compare(req.body.password, user.password);
     if (!password) return res.send({ data: { body: { status: 400, message: 'Invalid password' } } });
 
     const token = await jwt.sign({_id:user._id},'jwtPrivateKey');
     
-    res.send({ data: { body: { status: 200,message: "success", usertoken: token,userRole } } });
+    res.send({ data: { body: { status: 200,message: "success", usertoken: token,userRole,userId } } });
 
 
 })

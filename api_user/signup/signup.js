@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
     const roles = result.roles;
     
     const token = await jwt.sign({_id:user._id},'jwtPrivateKey');
-    res.send({ data: { body: { status: 200, message: "success",roles,usertoken: token } } });
+    res.send({ data: { body: { status: 200, message: "success",roles,usertoken: token,id:result._id } } });
     res.end();
 
 });

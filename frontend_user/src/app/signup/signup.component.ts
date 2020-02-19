@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   err_msg;
-  
+
   constructor(private userservice: UserService, private router: Router) {
-   
-   }
+
+  }
 
   loginForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -38,18 +38,18 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-      
-    
+
+
     this.userservice.userRegister(this.loginForm.value).subscribe((res: any) => {
-     
+
       this.err_msg = res.data.body.message;
       if (res.data.body.message == "success") {
-                
+
         this.router.navigate(['']);
         localStorage.setItem('token', res.data.body.usertoken);
-        
+        localStorage.setItem('registeruser', res.data.body.id);
       }
-      if(res.data.body.roles == "admin"){
+      if (res.data.body.roles == "admin") {
         this.userservice.adminRegister('true');
       }
     })

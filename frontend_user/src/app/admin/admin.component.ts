@@ -1,23 +1,29 @@
 import { Component } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent  {
+export class AdminComponent {
   userDetail = []
   filter_array = []
   update_id;
   register_error;
   update_err;
   p = 1;
-  constructor(private userservice: UserService) {
+  adminlog_val;
+  adminlog_check;
+  constructor(private userservice: UserService, private router: Router) {
 
+    this.userservice.adminlog.subscribe((res: any) => {
+      this.adminlog_val = res;
+    })
 
+    this.adminlog_check = localStorage.getItem('registeruser');
     // get user detail
     this.userservice.getUser().subscribe((res: any) => {
       if (res) {
@@ -70,8 +76,8 @@ export class AdminComponent  {
   userDelete(id) {
 
     this.userservice.deleteUser(id).subscribe((res: any) => {
-      
-      if(res.data.body.status == 200){
+
+      if (res.data.body.status == 200) {
         this.userDetail = [];
         this.userservice.getUser().subscribe((res: any) => {
           if (res) {
@@ -79,21 +85,21 @@ export class AdminComponent  {
               this.userDetail.push(res[i])
             }
           }
-    
-    
+
+
         })
       }
-      
+
     })
   }
 
   userUpdate(id) {
     this.update_err = ""
-     this.filter_array = []
+    this.filter_array = []
     this.userDetail.forEach((getuser, index) => {
-            if (getuser._id === id) {
-                this.filter_array.push(getuser);
-       
+      if (getuser._id === id) {
+        this.filter_array.push(getuser);
+
       }
 
     })
@@ -116,28 +122,75 @@ export class AdminComponent  {
     });
   }
   onChange() {
-    let update_data = {
-      id: this.update_id,
-      name: this.loginForm.value.name,
-      email: this.loginForm.value.email,
-      roles: this.loginForm.value.roles,
-      password: this.loginForm.value.password
-    }
+    this.userDetail.forEach((userval) => {
 
-    this.userservice.updateUser(update_data).subscribe((res: any) => {
-      this.update_err = res.data.body.message;
-      this.userDetail = [];
-      this.userservice.getUser().subscribe((res: any) => {
-        if (res) {
-          for (let i = 0; i < res.length; i++) {
-            this.userDetail.push(res[i])
-          }
+      if (this.update_id == userval._id && userval.password == this.loginForm.value.password) {
+
+        let update_data = {
+          id: this.update_id,
+          name: this.loginForm.value.name,
+          email: this.loginForm.value.email,
+          roles: this.loginForm.value.roles
+
         }
-  
-  
-      })
+
+        this.userservice.updateUser(update_data).subscribe((res: any) => {
+
+          this.update_err = res.data.body.message;
+          this.userDetail = [];
+          this.userservice.getUser().subscribe((res: any) => {
+
+            if (res) {
+              for (let i = 0; i < res.length; i++) {
+
+                if ((res[i]._id == this.adminlog_val || res[i]._id == this.adminlog_check) && res[i].roles == 'user') {
+
+                  this.userservice.logout();
+                }
+                this.userDetail.push(res[i])
+              }
+            }
+
+
+          })
+
+        })
+
+
+      } else if (this.update_id == userval._id && userval.password != this.loginForm.value.password) {
+        let update_data = {
+          id: this.update_id,
+          name: this.loginForm.value.name,
+          email: this.loginForm.value.email,
+          roles: this.loginForm.value.roles,
+          password: this.loginForm.value.password
+        }
+
+        this.userservice.updateUser(update_data).subscribe((res: any) => {
+
+          this.update_err = res.data.body.message;
+          this.userDetail = [];
+          this.userservice.getUser().subscribe((res: any) => {
+
+            if (res) {
+              for (let i = 0; i < res.length; i++) {
+                if ((res[i]._id == this.adminlog_val || res[i]._id == this.adminlog_check) && res[i].roles == 'user') {
+
+                  this.userservice.logout();
+                }
+                this.userDetail.push(res[i])
+              }
+            }
+
+
+          })
+
+        })
+      }
 
     })
+
+
   }
   // side bar toggle
   openNav() {

@@ -4,7 +4,7 @@ const url = 'mongodb+srv://suchit:director1613@userdata-n9oyo.mongodb.net/manage
 const local_url = 'mongodb://localhost/management';
 // connection 
 
-mongoose.connect(local_url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => { console.log('connected') })
     .catch(err => { console.log('rejected', err) })
 

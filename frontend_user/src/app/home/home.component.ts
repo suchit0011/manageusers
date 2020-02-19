@@ -8,6 +8,7 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   user_count;
   constructor(private userservice: UserService) {
+
     this.userservice.getUser().subscribe((res: any) => {
       this.user_count = res.length;
     })

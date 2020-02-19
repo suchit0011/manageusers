@@ -39,12 +39,10 @@ export class LoginComponent {
     this.userservice.userLogin(this.loginForm.value)
 
   }
-  onLogin() {
-    this.login_msg = "";
-    this.userservice.socialLogin().subscribe((res: any) => {
 
-    })
+  googleLogin() {
+    this.userservice.googleLogin().subscribe(res => { });
+
   }
-
 
 }
