@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Joi = require('joi');
 const url = 'mongodb+srv://suchit:director1613@userdata-n9oyo.mongodb.net/management?retryWrites=true&w=majority';
 const local_url = 'mongodb://localhost/management';
+
 // connection 
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
